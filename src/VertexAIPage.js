@@ -1,10 +1,9 @@
 /* VertexAIPage.js */
 import React, { useState, useEffect } from "react";
 
-const VertexAIPage = ({ query, setQuery, selectedFacets, setSelectedFacets }) => {
+const VertexAIPage = ({ query, selectedFacets, setSelectedFacets }) => {
     const [vertexAIResults, setVertexAIResults] = useState([]);
     const [vertexAIPage, setVertexAIPage] = useState(1);
-    const [vertexPaginationInfo, setVertexPaginationInfo] = useState({});
     const [vertexExecutionTime, setVertexExecutionTime] = useState(0);
     const [vertexFacets, setVertexFacets] = useState([]);
     const [expandedFacets, setExpandedFacets] = useState({});
@@ -40,7 +39,7 @@ const VertexAIPage = ({ query, setQuery, selectedFacets, setSelectedFacets }) =>
     const fetchVertexAIResults = async () => {
         const startTime = performance.now();
         const payload = {
-            query,
+            query, // Use updated query prop
             filter: buildFilterFromFacets()
         };
         const url = `https://main-pagination-dynamic-facet-demo-295037490706.us-central1.run.app/search?offset=${(vertexAIPage - 1) * 10}`;
@@ -48,9 +47,7 @@ const VertexAIPage = ({ query, setQuery, selectedFacets, setSelectedFacets }) =>
         try {
             const response = await fetch(url, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload)
             });
 
@@ -63,10 +60,6 @@ const VertexAIPage = ({ query, setQuery, selectedFacets, setSelectedFacets }) =>
 
             setVertexAIResults(data.results || []);
             setVertexExecutionTime((endTime - startTime).toFixed(2));
-            setVertexPaginationInfo({
-                totalProducts: data.total_products || 0,
-                pageCount: data.page_count || 1
-            });
             setVertexFacets(data.facets || []);
         } catch (error) {
             console.error("Error fetching Vertex AI results:", error);
@@ -77,6 +70,11 @@ const VertexAIPage = ({ query, setQuery, selectedFacets, setSelectedFacets }) =>
     useEffect(() => {
         fetchVertexAIResults();
     }, [vertexAIPage, selectedFacets]);
+
+    // NEW: Fetch data when `query` changes
+    useEffect(() => {
+        fetchVertexAIResults();
+    }, [query]); // Only listens for query updates
 
     const toggleFacetExpansion = (facetKey) => {
         setExpandedFacets((prev) => ({
@@ -89,14 +87,12 @@ const VertexAIPage = ({ query, setQuery, selectedFacets, setSelectedFacets }) =>
         return vertexFacets.map((facet, index) => (
             <div key={index} className="card mb-3">
                 <div
-                    className="card-header d-flex justify-content-between align-items-center cursor-pointer"
+                    className="card-header d-flex justify-content-between align-items-center"
                     style={{ cursor: "pointer" }}
                     onClick={() => toggleFacetExpansion(facet.facet_key)}
                 >
                     <strong>
-                        {facet.facet_key
-                            .replace(/^attributes\./, 'Att ')
-                            .replace(/_/g, ' ')}
+                        {facet.facet_key.replace(/^attributes\./, "Att ").replace(/_/g, " ")}
                     </strong>
                     <span>
                         <svg
@@ -123,56 +119,30 @@ const VertexAIPage = ({ query, setQuery, selectedFacets, setSelectedFacets }) =>
                 </div>
                 {expandedFacets[facet.facet_key] && (
                     <div className="card-body">
-                        {facet.facet_values.map((facetValue, idx) => {
-                            let rangeLabel = ""; // Label for display
-
-                            if (facetValue.interval) {
-                                // Interval-based payload
-                                const { min, max } = facetValue.interval;
-                                rangeLabel = `${min} - ${max}`;
-                            } else if (facetValue.value) {
-                                // Value-based payload
-                                rangeLabel = facetValue.value;
-                            }
-
-                            return (
-                                <div key={idx} className="form-check">
-                                    <input
-                                        type="checkbox"
-                                        className="form-check-input"
-                                        id={`vertex-${facet.facet_key}-${idx}`}
-                                        checked={
-                                            selectedFacets[facet.facet_key]?.some((item) => {
-                                                if (facetValue.interval) {
-                                                    return item.min === facetValue.interval.min && item.max === facetValue.interval.max;
-                                                } else {
-                                                    return item === facetValue.value;
-                                                }
-                                            }) || false
-                                        }
-                                        onChange={() => {
-                                            if (facetValue.interval) {
-                                                handleFacetChange(facet.facet_key, { min: facetValue.interval.min, max: facetValue.interval.max });
-                                            } else {
-                                                handleFacetChange(facet.facet_key, facetValue.value);
-                                            }
-                                        }}
-                                    />
-                                    <label
-                                        htmlFor={`vertex-${facet.facet_key}-${idx}`}
-                                        className="form-check-label"
-                                    >
-                                        {rangeLabel} <span className="badge bg-secondary">{facetValue.count}</span>
-                                    </label>
-                                </div>
-                            );
-                        })}
-
-
+                        {facet.facet_values.map((facetValue, idx) => (
+                            <div key={idx} className="form-check">
+                                <input
+                                    type="checkbox"
+                                    className="form-check-input"
+                                    id={`vertex-${facet.facet_key}-${idx}`}
+                                    checked={
+                                        selectedFacets[facet.facet_key]?.includes(facetValue.value) ||
+                                        false
+                                    }
+                                    onChange={() => handleFacetChange(facet.facet_key, facetValue.value)}
+                                />
+                                <label
+                                    htmlFor={`vertex-${facet.facet_key}-${idx}`}
+                                    className="form-check-label"
+                                >
+                                    {facetValue.value}{" "}
+                                    <span className="badge bg-secondary">{facetValue.count}</span>
+                                </label>
+                            </div>
+                        ))}
                     </div>
                 )}
             </div>
-
         ));
     };
 
@@ -180,16 +150,17 @@ const VertexAIPage = ({ query, setQuery, selectedFacets, setSelectedFacets }) =>
         <div className="row">
             <div className="col-md-12">
                 <h3 className="text-center">Vertex AI Search Results</h3>
-                <div className="text-center mb-2">Execution Time: {vertexExecutionTime} ms</div>
+                <div className="text-center mb-2">
+                    Execution Time: {vertexExecutionTime} ms
+                </div>
             </div>
             <div className="col-md-4">{renderFacets()}</div>
             <div className="col-md-8">
-
                 {vertexAIResults.map((product, index) => (
                     <div key={index} className="product-card card mb-3">
                         <div className="d-flex">
                             <img
-                                src={product.image || "https://via.placeholder.com/150"} // Replace with actual image source key
+                                src={product.image || "https://via.placeholder.com/150"}
                                 alt={product.name}
                                 className="img-thumbnail me-3"
                                 style={{ width: "150px", height: "auto" }}
@@ -213,7 +184,6 @@ const VertexAIPage = ({ query, setQuery, selectedFacets, setSelectedFacets }) =>
                     <button
                         className="btn btn-secondary mx-2"
                         onClick={() => setVertexAIPage(vertexAIPage + 1)}
-                        disabled={vertexAIPage >= vertexPaginationInfo.pageCount}
                     >
                         Next Page
                     </button>

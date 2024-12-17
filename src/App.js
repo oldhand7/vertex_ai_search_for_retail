@@ -2,10 +2,9 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import APIComparisonTool from "./APIComparisonTool";
-import "./APIComparisonTool.css";
 
 const App = () => {
-  const [query, setQuery] = useState("shirt");
+  const [query, setQuery] = useState("bearing");
   const [selectedFacets, setSelectedFacets] = useState({});
 
   const handleInputChange = (e) => setQuery(e.target.value);
@@ -13,10 +12,10 @@ const App = () => {
   const clearSelectedFacets = () => setSelectedFacets({});
 
   return (
-    <div className="App ">
+    <div className="App">
       <h1 className="text-center mt-4 mb-4">Search API Comparison Tool</h1>
 
-      {/* Search Input Section */}
+      {/* Search Input */}
       <div className="row justify-content-center mb-4">
         <div className="col-md-6">
           <input
@@ -68,7 +67,7 @@ const App = () => {
 
       {/* API Comparison Tool */}
       <APIComparisonTool
-        query={query}
+        query={query} // Pass query to APIComparisonTool
         setQuery={setQuery}
         selectedFacets={selectedFacets}
         setSelectedFacets={setSelectedFacets}
