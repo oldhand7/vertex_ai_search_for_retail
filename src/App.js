@@ -5,9 +5,11 @@ import APIComparisonTool from "./APIComparisonTool";
 
 const App = () => {
   const [query, setQuery] = useState("bearing");
+  const [squery, setSQuery] = useState("bearing");
   const [selectedFacets, setSelectedFacets] = useState({});
 
-  const handleInputChange = (e) => setQuery(e.target.value);
+  const handleInputChange = (e) => setSQuery(e.target.value);
+  const handleClick = (e) => setQuery(squery);
 
   const clearSelectedFacets = () => setSelectedFacets({});
 
@@ -22,14 +24,14 @@ const App = () => {
             type="text"
             className="form-control"
             placeholder="Enter search query..."
-            value={query}
+            value={squery}
             onChange={handleInputChange}
           />
         </div>
         <div className="col-md-2">
           <button
             className="btn btn-primary w-100"
-            onClick={() => setQuery(query.trim())}
+            onClick={() => handleClick(query.trim())}
             disabled={!query.trim()}
           >
             Search
