@@ -92,7 +92,7 @@ const VertexAIPage = ({ query, selectedFacets, setSelectedFacets }) => {
                     onClick={() => toggleFacetExpansion(facet.facet_key)}
                 >
                     <strong>
-                        {facet.facet_key.replace(/^attributes\./, "Att ").replace(/_/g, " ")}
+                        {facet.facet_key.replace(/^attributes\./, "").replace(/_/g, " ")}
                     </strong>
                     <span>
                         <svg
