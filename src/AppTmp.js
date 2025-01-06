@@ -61,7 +61,7 @@ const APIComparisonTool = () => {
       query,
       filter: buildFilterFromFacets()
     };
-    const url = `https://main-pagination-dynamic-facet-demo-295037490706.us-central1.run.app/search?offset=${(vertexAIPage - 1) * 10}`;
+    const url = `https://main-pagination-dynamic-facet-demo-667662262430.us-central1.run.app/search?offset=${(vertexAIPage - 1) * 10}`;
 
     try {
       const response = await fetch(url, {
