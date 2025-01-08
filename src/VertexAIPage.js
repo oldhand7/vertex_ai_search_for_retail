@@ -33,7 +33,6 @@ const VertexAIPage = ({ query, selectedFacets, setSelectedFacets }) => {
             }
             return updatedFacets;
         });
-        fetchVertexAIResults();
     };
 
     const fetchVertexAIResults = async () => {
@@ -69,12 +68,7 @@ const VertexAIPage = ({ query, selectedFacets, setSelectedFacets }) => {
 
     useEffect(() => {
         fetchVertexAIResults();
-    }, [vertexAIPage, selectedFacets]);
-
-    // NEW: Fetch data when `query` changes
-    useEffect(() => {
-        fetchVertexAIResults();
-    }, [query]); // Only listens for query updates
+    }, [query, vertexAIPage, selectedFacets]);
 
     const toggleFacetExpansion = (facetKey) => {
         setExpandedFacets((prev) => ({
