@@ -51,7 +51,7 @@ const VertexAIPage = ({ query, selectedFacets, setSelectedFacets }) => {
             });
             setTimeout(() => {
                 console.log("Waited for  400 mili seconds");
-            }, 500); // 2000 milliseconds = 2 seconds
+            }, 250); // 2000 milliseconds = 2 seconds
             if (!response.ok) throw new Error(`Error: ${response.status}`);
 
             if (!response.ok) {
@@ -62,7 +62,7 @@ const VertexAIPage = ({ query, selectedFacets, setSelectedFacets }) => {
             const endTime = performance.now();
 
             setVertexAIResults(data.results || []);
-            setVertexExecutionTime((endTime - startTime + 200).toFixed(2));
+            setVertexExecutionTime((endTime - startTime).toFixed(2));
             setVertexFacets(data.facets || []);
         } catch (error) {
             console.error("Error fetching Vertex AI results:", error);

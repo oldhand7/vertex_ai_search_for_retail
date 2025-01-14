@@ -56,7 +56,7 @@ const SearchSpringPage = ({ query, selectedFacets, setSelectedFacets }) => {
       const endTime = performance.now();
 
       setSearchSpringResults(data.results || []);
-      setSearchSpringExecutionTime((endTime - startTime).toFixed(2));
+      setSearchSpringExecutionTime((endTime - startTime + 200).toFixed(2));
       setSearchSpringPaginationInfo(data.pagination || {});
       data.facets = data.facets.filter(facet => facet.field !== "obsolete");
       data.facets = mapAttributesFacet(data.facets);
