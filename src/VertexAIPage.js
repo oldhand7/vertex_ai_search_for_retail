@@ -49,13 +49,11 @@ const VertexAIPage = ({ query, selectedFacets, setSelectedFacets }) => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload)
             });
-            try {
-                const response = await fetch(url);
-                setTimeout(() => {
-                  console.log("Waited for  400 mili seconds");
-                }, 250); // 2000 milliseconds = 2 seconds
-                if (!response.ok) throw new Error(`Error: ${response.status}`);
-          
+            setTimeout(() => {
+                console.log("Waited for  400 mili seconds");
+            }, 500); // 2000 milliseconds = 2 seconds
+            if (!response.ok) throw new Error(`Error: ${response.status}`);
+
             if (!response.ok) {
                 throw new Error(`Vertex AI API returned status ${response.status}`);
             }
