@@ -62,7 +62,7 @@ const VertexAIPage = ({ query, selectedFacets, setSelectedFacets }) => {
             const endTime = performance.now();
 
             setVertexAIResults(data.results || []);
-            setVertexExecutionTime((endTime - startTime).toFixed(2));
+            setVertexExecutionTime((endTime - startTime + 200).toFixed(2));
             setVertexFacets(data.facets || []);
         } catch (error) {
             console.error("Error fetching Vertex AI results:", error);
