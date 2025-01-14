@@ -47,6 +47,9 @@ const SearchSpringPage = ({ query, selectedFacets, setSelectedFacets }) => {
 
     try {
       const response = await fetch(url);
+      setTimeout(() => {
+        console.log("Waited for  400 mili seconds");
+      }, 400); // 2000 milliseconds = 2 seconds
       if (!response.ok) throw new Error(`Error: ${response.status}`);
 
       const data = await response.json();
