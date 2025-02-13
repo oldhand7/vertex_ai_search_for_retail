@@ -4,8 +4,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import APIComparisonTool from "./APIComparisonTool";
 
 const App = () => {
-  const [query, setQuery] = useState("bearing");
-  const [squery, setSQuery] = useState("bearing");
+  const [query, setQuery] = useState("vem3546t");
+  const [squery, setSQuery] = useState("vem3546t");
   const [selectedFacets, setSelectedFacets] = useState({});
 
   const handleInputChange = (e) => setSQuery(e.target.value);
