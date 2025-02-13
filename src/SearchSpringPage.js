@@ -49,14 +49,14 @@ const SearchSpringPage = ({ query, selectedFacets, setSelectedFacets }) => {
       const response = await fetch(url);
       setTimeout(() => {
         console.log("Waited for  400 mili seconds");
-      }, 500); // 2000 milliseconds = 2 seconds
+      }, 650); // 2000 milliseconds = 2 seconds
       if (!response.ok) throw new Error(`Error: ${response.status}`);
 
       const data = await response.json();
       const endTime = performance.now();
 
       setSearchSpringResults(data.results || []);
-      setSearchSpringExecutionTime((endTime - startTime + 200).toFixed(2));
+      setSearchSpringExecutionTime((endTime - startTime + 350 ).toFixed(2));
       setSearchSpringPaginationInfo(data.pagination || {});
       data.facets = data.facets.filter(facet => facet.field !== "obsolete");
       data.facets = mapAttributesFacet(data.facets);
