@@ -1,27 +1,27 @@
-/* APIComparisonTool.js */
+/* APIComparisonVertexVersions.js */
 import React from "react";
 import VertexAIPage from "./VertexAIPage";
-import SearchSpringPage from "./SearchSpringPage";
+import VertexAIPageV2 from "./VertexAIPageV2";
 
-const APIComparisonTool = ({ query="vem3546t", setQuery, selectedFacets, setSelectedFacets }) => {
+const APIComparisonVertexVersions = ({ query, setQuery, selectedFacets, setSelectedFacets }) => {
   return (
     <div className="container-fluid">
       <div className="row">
         {/* Left Section */}
         <div className="col-md-6" style={{ borderRight: "1px solid #ccc", padding: "20px" }}>
-          <h3 className="text-center">Vertex AI Search</h3>
+          <h3 className="text-center">Vertex AI Search V1</h3>
           <VertexAIPage
             query={query} // Pass updated query from parent
             setQuery={setQuery} // Pass the handler
-            selectedFacets={selectedFacets || {}}
+            selectedFacets={selectedFacets}
             setSelectedFacets={setSelectedFacets}
           />
         </div>
 
         {/* Right Section */}
         <div className="col-md-6" style={{ padding: "20px" }}>
-          <h3 className="text-center">SearchSpring</h3>
-          <SearchSpringPage
+          <h3 className="text-center">Vertex AI Search V2</h3>
+          <VertexAIPageV2
             query={query} // Pass updated query from parent
             setQuery={setQuery} // Pass the handler
             selectedFacets={selectedFacets}
@@ -33,4 +33,4 @@ const APIComparisonTool = ({ query="vem3546t", setQuery, selectedFacets, setSele
   );
 };
 
-export default APIComparisonTool;
+export default APIComparisonVertexVersions;
