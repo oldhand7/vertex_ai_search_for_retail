@@ -20,7 +20,7 @@ const APIComparisonVertexVersions = ({ query, setQuery, selectedFacets, setSelec
 
         {/* Right Section */}
         <div className="col-md-6" style={{ padding: "20px" }}>
-          <h3 className="text-center">Vertex AI Search V2</h3>
+          <h3 className="text-center">Vertex AI Search V2 - with Cache & Category-Facet system</h3>
           <VertexAIPageV2
             query={query} // Pass updated query from parent
             setQuery={setQuery} // Pass the handler
