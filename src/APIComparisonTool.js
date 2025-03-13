@@ -1,6 +1,6 @@
 /* APIComparisonTool.js */
 import React from "react";
-import VertexAIPage from "./VertexAIPage";
+import VertexAIPage from "./VertexAIPageV2";
 import SearchSpringPage from "./SearchSpringPage";
 
 const APIComparisonTool = ({ query="vem3546t", setQuery, selectedFacets, setSelectedFacets }) => {
