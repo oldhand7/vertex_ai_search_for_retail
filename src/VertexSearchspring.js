@@ -67,7 +67,7 @@ const App = () => {
  
       {/* API Comparison Tool */}
       <APIComparisonTool
-        query={ "vem3546t"}
+        query={squery}
         setQuery={setQuery}
         selectedFacets={selectedFacets || {}} // ✅ Ensure it's always an object
         setSelectedFacets={setSelectedFacets}
